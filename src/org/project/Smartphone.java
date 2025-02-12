@@ -8,14 +8,12 @@ import java.util.List;
 public class Smartphone extends Product {
     private Color color;
     private int batteryCapacity;
+    private Accessories accessories;
 
-    private List<String> accessories;
-
-    public Smartphone(int id, String name, BigDecimal price, int quantityAvailable, Color color, int batteryCapacity) {
+    public Smartphone(int id, String name, BigDecimal price, int quantityAvailable, Color color, int batteryCapacity, Accessories accessories) {
         super(id, name, price, quantityAvailable);
         this.color = color;
         this.batteryCapacity = batteryCapacity;
-        this.accessories = new ArrayList<>();
     }
 
     public Color getColor() {
@@ -32,22 +30,6 @@ public class Smartphone extends Product {
 
     public void setBatteryCapacity(int batteryCapacity) {
         this.batteryCapacity = batteryCapacity;
-    }
-
-    public List<String> getAccessories() {
-        return accessories;
-    }
-
-    public void addAccessory(String accessory) {
-        accessories.add(accessory);
-    }
-
-    public static void displayAvailableColors() {
-        System.out.println("Dostępne kolory:");
-        Color[] colors = Color.values();
-        for (int i = 0; i < colors.length; i++) {
-            System.out.println((i + 1) + ". " + colors[i]);
-        }
     }
 
     @Override

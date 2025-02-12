@@ -1,13 +1,19 @@
 package org.project;
 
 public class RAM {
+    private String producerName;
     private int capacity;
     private Unit unit;
 
-    public RAM(int capacity, Unit unit) {
+    public RAM(String producerName, int capacity, Unit unit) {
+        this.producerName = producerName;
         this.capacity = capacity;
         this.unit = unit;
     }
+
+    public String getProducerName() {return producerName;}
+
+    public void setProducerName(String producerName) {this.producerName = producerName;}
 
     public int getCapacity() {
         return capacity;
@@ -27,6 +33,10 @@ public class RAM {
 
     @Override
     public String toString() {
-        return super.toString() +"ram=" + capacity + "" + unit + '}';
+        return "RAM{" +
+                "name='" + producerName + '\'' +
+                ", capacity=" + capacity + '\'' +
+                "" + unit +
+                '}';
     }
 }

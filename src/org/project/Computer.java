@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 
 public class Computer extends Product {
 
-    private String processor;
+    private Processor processor;
     private RAM ram;
 
-    public Computer(int id, String name, BigDecimal price, int quantity, String processor, RAM ram) {
+    public Computer(int id, String name, BigDecimal price, int quantity, Processor processor, RAM ram) {
         super(id, name, price, quantity);
         this.processor = processor;
         this.ram = ram;
@@ -22,11 +22,11 @@ public class Computer extends Product {
         this.ram = ram;
     }
 
-    public String getProcessor() {
+    public Processor getProcessor() {
         return processor;
     }
 
-    public void setProcessor(String processor) {
+    public void setProcessor(Processor processor) {
         this.processor = processor;
     }
 
