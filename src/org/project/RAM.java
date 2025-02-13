@@ -3,12 +3,12 @@ package org.project;
 public class RAM {
     private String producerName;
     private int capacity;
-    private Unit unit;
+    private RamUnit ramUnit;
 
-    public RAM(String producerName, int capacity, Unit unit) {
+    public RAM(String producerName, int capacity, RamUnit ramUnit) {
         this.producerName = producerName;
         this.capacity = capacity;
-        this.unit = unit;
+        this.ramUnit = ramUnit;
     }
 
     public String getProducerName() {return producerName;}
@@ -23,12 +23,12 @@ public class RAM {
         this.capacity = capacity;
     }
 
-    public Unit getUnit() {
-        return unit;
+    public RamUnit getUnit() {
+        return ramUnit;
     }
 
-    public void setUnit(Unit unit) {
-        this.unit = unit;
+    public void setUnit(RamUnit ramUnit) {
+        this.ramUnit = ramUnit;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class RAM {
         return "RAM{" +
                 "name='" + producerName + '\'' +
                 ", capacity=" + capacity + '\'' +
-                "" + unit +
+                "" + ramUnit +
                 '}';
     }
 }

@@ -1,6 +1,6 @@
 package org.project;
 
-public enum Unit {
+public enum RamUnit {
     MB, GB, TB
 }
 

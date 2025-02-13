@@ -2,16 +2,16 @@ package org.project;
 
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.UUID;
 
 public class Smartphone extends Product {
     private Color color;
     private int batteryCapacity;
-    private Accessories accessories;
+    private Accessory accessory;
 
-    public Smartphone(int id, String name, BigDecimal price, int quantityAvailable, Color color, int batteryCapacity, Accessories accessories) {
-        super(id, name, price, quantityAvailable);
+    public Smartphone(UUID id, String name, BigDecimal price, int quantityAvailable, Color color, int batteryCapacity, Accessory accessory) {
+        super(name, price, quantityAvailable);
+        this.id = UUID.randomUUID();
         this.color = color;
         this.batteryCapacity = batteryCapacity;
     }

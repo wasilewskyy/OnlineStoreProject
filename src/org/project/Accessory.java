@@ -2,13 +2,13 @@ package org.project;
 
 import java.math.BigDecimal;
 
-public class Accessories {
+public class Accessory {
     private String name;
     private BigDecimal price;
     private String compatibility;
     private String material;
 
-    public Accessories(String name, BigDecimal price, String compatibility, String material) {
+    public Accessory(String name, BigDecimal price, String compatibility, String material) {
         this.name = name;
         this.compatibility = compatibility;
         this.material = material;
@@ -40,7 +40,7 @@ public class Accessories {
 
     @Override
     public String toString() {
-        return "Accessories{" +
+        return "Accessory{" +
                 "Name=" + name +
                 ", price=" + price +
                 ", compatibility=" + compatibility +

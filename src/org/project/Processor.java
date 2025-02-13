@@ -4,11 +4,13 @@ public class Processor {
     private String brand;
     private String model;
     private int cores;
+    private CoresUnit coresUnit;
 
-    public Processor(String brand, String model, int cores) {
+    public Processor(String brand, String model, int cores, CoresUnit coresUnit) {
         this.brand = brand;
         this.model = model;
         this.cores = cores;
+        this.coresUnit = coresUnit;
     }
 
     public String getBrand() {
@@ -35,12 +37,17 @@ public class Processor {
         this.cores = cores;
     }
 
+    public CoresUnit getCoresUnit() {return coresUnit;}
+
+    public void setCoresUnit(CoresUnit coresUnit) {this.coresUnit = coresUnit;}
+
     @Override
     public String toString() {
         return "Processor{" +
                 "brand='" + brand + '\'' +
                 ", model='" + model + '\'' +
-                ", cores=" + cores +
+                ", cores=" + cores + '\'' +
+                " " + coresUnit +
                 '}';
     }
 }

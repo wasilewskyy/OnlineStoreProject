@@ -1,17 +1,18 @@
 package org.project;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class Computer extends Product {
 
     private Processor processor;
     private RAM ram;
 
-    public Computer(int id, String name, BigDecimal price, int quantity, Processor processor, RAM ram) {
-        super(id, name, price, quantity);
+    public Computer(UUID id, String name, BigDecimal price, int quantity, Processor processor, RAM ram) {
+        super(name, price, quantity);
+        this.id = UUID.randomUUID();
         this.processor = processor;
         this.ram = ram;
-
     }
 
     public RAM getRam() {
