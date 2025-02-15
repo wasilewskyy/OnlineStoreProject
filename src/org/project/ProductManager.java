@@ -1,7 +1,9 @@
 package org.project;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ProductManager {
     private List<Product> products;
@@ -14,11 +16,11 @@ public class ProductManager {
         products.add(product);
     }
 
-    public void removeProduct(int id) {
+    public void removeProduct(UUID id) {
         products.removeIf(product -> product.getId() == id);
     }
 
-    public void updateProduct(int id, String name, double price, int quantity) {
+    public void updateProduct (UUID id, String name, BigDecimal price, int quantity) {
         for (Product product : products) {
             if (product.getId() == id) {
                 product.setQuantity(quantity);
@@ -31,7 +33,7 @@ public class ProductManager {
         return products;
     }
 
-    public Product getProductById(int id) {
+    public Product getProductById(UUID id) {
         for (Product product : products) {
             if (product.getId() == id) {
                 return product;

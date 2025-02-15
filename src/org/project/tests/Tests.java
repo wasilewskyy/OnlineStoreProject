@@ -11,6 +11,7 @@ public class Tests {
     }
 
     private static void creatingAndCheckingCorrectDisplayOfAllProducts() {
+        ProductManager productManager = new ProductManager();
         RAM ram1 = new RAM("HyperX",8, RamUnit.GB);
         RAM ram2 = new RAM("Corsair",16, RamUnit.GB);
         RAM ram3 = new RAM("Kingston",32, RamUnit.GB);
@@ -31,5 +32,13 @@ public class Tests {
         System.out.println(electronics);
         System.out.println(smartphone1);
         System.out.println(smartphone2);
+
+        //Testy ProductManager
+        productManager.addProduct(computer1);
+        UUID idToRemove = computer1.getId();
+        productManager.removeProduct(idToRemove);
+        UUID idToAdd = computer2.getId();
+        productManager.updateProduct(idToAdd,"Macbook Air", new BigDecimal(1200),60);
+        System.out.println(productManager.getAllProducts());
     }
 }
