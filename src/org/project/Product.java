@@ -35,6 +35,16 @@ public abstract class Product {
         this.quantity = quantity;
     }
 
+    public void decreaseQuantity(int amount) {
+        if (quantity >= amount) {
+            quantity -= amount;
+        }
+    }
+
+    public void increaseQuantity(int amount) {
+        quantity += amount;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
