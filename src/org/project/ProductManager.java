@@ -1,5 +1,6 @@
 package org.project;
 
+import org.project.exception.ProductNotFoundException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +18,14 @@ public class ProductManager {
     }
 
     public void removeProduct(UUID id) {
-        products.removeIf(product -> product.getId() == id);
+        products.removeIf(product -> product.getId().equals(id));
     }
 
     public void updateProduct (UUID id, String name, BigDecimal price, int quantity) {
         for (Product product : products) {
-            if (product.getId() == id) {
+            if (product.getId().equals(id)) {
+                product.setName(name);
+                product.setPrice(price);
                 product.setQuantity(quantity);
                 break;
             }
@@ -34,11 +37,9 @@ public class ProductManager {
     }
 
     public Product getProductById(UUID id) {
-        for (Product product : products) {
-            if (product.getId() == id) {
-                return product;
-            }
-        }
-        return null;
+        return products.stream()
+                .filter(product -> product.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new ProductNotFoundException("Produkt o ID " + id + " nie został znaleziony"));
     }
 }
