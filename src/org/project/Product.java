@@ -36,6 +36,10 @@ public abstract class Product {
         this.quantity = quantity;
     }
 
+    public void setName(String name) {this.name = name;}
+
+    public void setPrice(BigDecimal price) {this.price = price;}
+
     @Override
     public String toString() {
         return "Product{" +
