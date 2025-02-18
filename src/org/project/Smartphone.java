@@ -2,20 +2,18 @@ package org.project;
 
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.UUID;
 
 public class Smartphone extends Product {
     private Color color;
     private int batteryCapacity;
+    private Accessory accessory;
 
-    private List<String> accessories;
-
-    public Smartphone(int id, String name, BigDecimal price, int quantityAvailable, Color color, int batteryCapacity) {
-        super(id, name, price, quantityAvailable);
+    public Smartphone(UUID id, String name, BigDecimal price, int quantityAvailable, Color color, int batteryCapacity, Accessory accessory) {
+        super(name, price, quantityAvailable);
+        this.id = UUID.randomUUID();
         this.color = color;
         this.batteryCapacity = batteryCapacity;
-        this.accessories = new ArrayList<>();
     }
 
     public Color getColor() {
@@ -32,22 +30,6 @@ public class Smartphone extends Product {
 
     public void setBatteryCapacity(int batteryCapacity) {
         this.batteryCapacity = batteryCapacity;
-    }
-
-    public List<String> getAccessories() {
-        return accessories;
-    }
-
-    public void addAccessory(String accessory) {
-        accessories.add(accessory);
-    }
-
-    public static void displayAvailableColors() {
-        System.out.println("Dostępne kolory:");
-        Color[] colors = Color.values();
-        for (int i = 0; i < colors.length; i++) {
-            System.out.println((i + 1) + ". " + colors[i]);
-        }
     }
 
     @Override
