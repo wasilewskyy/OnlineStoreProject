@@ -41,6 +41,5 @@ public class ProductManager {
                 .filter(product -> product.getId().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new ProductNotFoundException("Produkt o ID " + id + " nie został znaleziony"));
->>>>>>> master
     }
 }

@@ -4,57 +4,48 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cart extends ProductManager {
+public class Cart {
     private List<Product> cartItems;
 
     public Cart() {
-        super();
         this.cartItems = new ArrayList<>();
     }
 
-    public void addProduct(int productId) {
-        Product product = getProductById(productId);
+    public void addProductToCart(Product product) {
         if (product != null && product.getQuantity() > 0) {
             cartItems.add(product);
-            product.setQuantity(product.getQuantity() - 1);
+            product.decreaseQuantity(1);
         }
     }
 
-    public void removeProduct(int productId) {
-        Product productToRemove = null;
-        for (Product product : cartItems) {
-            if (product.getId() == productId) {
-                productToRemove = product;
-                break;
-            }
-        }
-        if (productToRemove != null) {
-            productToRemove.setQuantity(productToRemove.getQuantity() + 1);
-            cartItems.remove(productToRemove);
+    public void removeProductFromCart(Product product) {
+        if (cartItems.contains(product)) {
+            product.increaseQuantity(1);
+            cartItems.remove(product);
         }
     }
 
-    public BigDecimal getTotalPrice() {
+    public BigDecimal calculateTotalPrice() {
         return cartItems.stream()
                 .map(Product::getPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public void viewCart() {
+    public void displayCartContents() {
         if (cartItems.isEmpty()) {
-            System.out.println("Koszyk jest pusty.");
+            System.out.println("The cart is empty.");
         } else {
-            System.out.println("Aktualna zawartość koszyka: ");
+            System.out.println("Current cart contents:");
             cartItems.forEach(System.out::println);
         }
     }
 
-    public void placeOrder() {
+    public void checkout() {
         if (cartItems.isEmpty()) {
-            System.out.println("Nie można złożyć zamówienia, koszyk jest pusty.");
+            System.out.println("Cannot place an order, the cart is empty.");
         } else {
-            System.out.println("Zamówienie zostało złożone:");
-            viewCart();
+            System.out.println("Order has been placed:");
+            displayCartContents();
             cartItems.clear();
         }
     }
