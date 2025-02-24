@@ -12,17 +12,29 @@ public class Cart {
     }
 
     public void addProductToCart(Product product) {
-        if (product != null && product.getQuantity() > 0) {
-            cartItems.add(product);
-            product.decreaseQuantity(1);
+        if (product == null) {
+            throw new IllegalArgumentException("Product cannot be null.");
         }
+        if (product.getQuantity() <= 0) {
+            throw new IllegalArgumentException("No pieces of product available: " + product.getName());
+        }
+
+        for (Product cartProduct : cartItems) {
+            if (cartProduct.getId().equals(product.getId())) {
+                cartProduct.increaseQuantity(1);
+                return;
+            }
+        }
+        Product clonedProduct = product.clone();
+        clonedProduct.setQuantity(1);
+        cartItems.add(clonedProduct);
     }
 
     public void removeProductFromCart(Product product) {
-        if (cartItems.contains(product)) {
-            product.increaseQuantity(1);
-            cartItems.remove(product);
+        if (!cartItems.contains(product)) {
+            throw new IllegalArgumentException("Product is not in the cart.");
         }
+        cartItems.remove(product);
     }
 
     public BigDecimal calculateTotalPrice() {

@@ -33,6 +33,11 @@ public class Smartphone extends Product {
     }
 
     @Override
+    protected Product clone() {
+        return new Smartphone(this.id, this.getName(), this.getPrice(), this.getQuantity(), this.color, this.batteryCapacity, this.accessory);
+    }
+
+    @Override
     public String toString() {
         return super.toString() + ", color=" + color + ", batteryCapacity=" + batteryCapacity;
     }
