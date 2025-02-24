@@ -31,12 +31,21 @@ public class Cart {
     }
 
     public void removeProductFromCart(Product product) {
-        if (!cartItems.contains(product)) {
-            throw new IllegalArgumentException("Product is not in the cart.");
+        if (product == null) {
+            throw new IllegalArgumentException("Product cannot be null.");
         }
-        cartItems.remove(product);
+        for (Product cartProduct : cartItems) {
+            if (cartProduct.getId().equals(product.getId())) {
+                if (cartProduct.getQuantity() > 1) {
+                    cartProduct.decreaseQuantity(1);
+                } else {
+                    cartItems.remove(cartProduct);
+                }
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Product is not in the cart.");
     }
-
     public BigDecimal calculateTotalPrice() {
         return cartItems.stream()
                 .map(Product::getPrice)
