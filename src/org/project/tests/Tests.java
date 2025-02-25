@@ -69,6 +69,29 @@ public class Tests {
         System.out.println("Lista produktów po dodaniu:");
         productManager.getAllProducts().forEach(System.out::println);
 
+        // Tworzymy koszyk dla użytkownika
+        UUID cartId = productManager.createCart();
+        System.out.println("\nUtworzono nowy koszyk o ID: " + cartId);
+
+        // Dodajemy produkt do koszyka
+        productManager.addProductToCart(cartId, computer1.getId(), 3);
+        productManager.addProductToCart(cartId, smartphone1.getId(), 5);
+        productManager.addProductToCart(cartId, electronics.getId(), 5);
+
+        // Wyświetlamy zawartość koszyka
+        System.out.println("\nKoszyk po dodaniu produktów:");
+        System.out.println(productManager.getCart(cartId));
+
+        // Usuwamy część produktów z koszyka
+        productManager.removeProductFromCart(cartId, smartphone1.getId(), 2);
+
+        // Próbujemy dodać więcej produktów, niż mamy w magazynie
+        try {
+            productManager.addProductToCart(cartId, smartphone1.getId(), 20);
+        } catch (IllegalArgumentException e) {
+            System.out.println("\nBłąd: " + e.getMessage());
+        }
+
         // Wyszukiwanie produktu po ID
         try {
             Product foundProduct = productManager.getProductById(computer1.getId());
@@ -76,11 +99,6 @@ public class Tests {
         } catch (ProductNotFoundException e) {
             System.out.println(e.getMessage());
         }
-
-        // Aktualizacja produktu
-        productManager.updateProduct(smartphone1.getId(), "Smartphone Pro", new BigDecimal("2500.00"), 7);
-        System.out.println("\nLista produktów po aktualizacji:");
-        productManager.getAllProducts().forEach(System.out::println);
 
         // Usunięcie produktu
         productManager.removeProduct(electronics.getId());
@@ -94,6 +112,10 @@ public class Tests {
             System.out.println("\nBłąd: " + e.getMessage());
 
         }
+
+        // Usuwamy koszyk
+        productManager.deleteCart(cartId);
+        System.out.println("\nKoszyk został usunięty.");
     }
 
     private static void testingTheUseOfTheShoppingCart() {
@@ -109,14 +131,14 @@ public class Tests {
 
         // Dodanie produktów do koszyka
         System.out.println("Dodawanie produktów do koszyka:");
-        cart.addProductToCart(computer1);
-        cart.addProductToCart(smartphone1);
-        cart.addProductToCart(electronics);
+        cart.addProductToCart(computer1, 1);
+        cart.addProductToCart(smartphone1, 2);
+        cart.addProductToCart(electronics, 3);
         cart.displayCartContents();
 
         // Usunięcie produktu z koszyka
         System.out.println("\nUsuwanie produktu z koszyka:");
-        cart.removeProductFromCart(electronics);
+        cart.removeProductFromCart(electronics.getId(), 1);
         cart.displayCartContents();
 
         // Obliczanie ceny całkowitej

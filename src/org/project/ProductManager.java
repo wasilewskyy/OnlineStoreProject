@@ -1,17 +1,17 @@
 package org.project;
 
 import org.project.exception.ProductNotFoundException;
+
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class ProductManager {
     private List<Product> products;
-    private Cart cart;
+    private Map<UUID, Cart> carts;
 
     public ProductManager() {
         this.products = new ArrayList<>();
+        this.carts = new HashMap<>();
     }
 
     public void addProduct(Product product) {
@@ -44,28 +44,44 @@ public class ProductManager {
                 .orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " has not been found."));
     }
 
-    public void addProductToCart(UUID productId, int quantity) {
+    public UUID createCart() {
+        UUID cartId = UUID.randomUUID();
+        carts.put(cartId, new Cart());
+        return cartId;
+    }
+
+    private Cart getCartById(UUID cartId) {
+        Cart cart = carts.get(cartId);
+        if (cart == null) {
+            throw new IllegalArgumentException("Cart with ID " + cartId + " not found.");
+        }
+        return cart;
+    }
+
+    public void addProductToCart(UUID cartId, UUID productId, int quantity) {
         Product product = getProductById(productId);
         if (product.getQuantity() < quantity) {
             throw new IllegalArgumentException("There is not enough product in stock.");
         }
-        cart.addProductToCart(product.clone());
+
+        Cart cart = getCartById(cartId);
+        cart.addProductToCart(product, quantity);
         product.decreaseQuantity(quantity);
     }
 
-    public void removeProductFromCart(UUID productId, int quantity) {
-        if (productId == null) {
-            throw new IllegalArgumentException("Product ID cannot be null.");
-        }
-        if (quantity <= 0) {
-            throw new IllegalArgumentException("Quantity must be higher than zero.");
-        }
+    public void removeProductFromCart(UUID cartId, UUID productId, int quantity) {
+        Cart cart = getCartById(cartId);
+        cart.removeProductFromCart(productId, quantity);
 
         Product product = getProductById(productId);
-        if (product == null) {
-            throw new IllegalStateException("Product not found in the system.");
-        }
-        cart.removeProductFromCart(product.clone());
         product.increaseQuantity(quantity);
+    }
+
+    public Cart getCart(UUID cartId) {
+        return getCartById(cartId);
+    }
+
+    public void deleteCart(UUID cartId) {
+        carts.remove(cartId);
     }
 }
