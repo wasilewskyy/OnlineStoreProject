@@ -32,6 +32,12 @@ public class Computer extends Product {
     }
 
     @Override
+    protected Product clone() {
+        return new Computer(this.id, this.getName(), this.getPrice(), this.getQuantity(), this.getProcessor(), this.getRam());
+    }
+
+
+    @Override
     public String toString() {
         return super.toString() + ", processor=" + processor + ", ram=" + ram;
     }

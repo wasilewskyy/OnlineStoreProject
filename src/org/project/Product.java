@@ -40,6 +40,19 @@ public abstract class Product {
 
     public void setPrice(BigDecimal price) {this.price = price;}
 
+    public void decreaseQuantity(int amount) {
+        if (amount > quantity) {
+            throw new IllegalArgumentException("Quantity can't be reduce by more than the current value: " + quantity);
+        }
+        this.quantity -= amount;
+    }
+    public void increaseQuantity(int amount) {
+        this.quantity += amount;
+    }
+
+    @Override
+    protected abstract Product clone();
+
     @Override
     public String toString() {
         return "Product{" +
