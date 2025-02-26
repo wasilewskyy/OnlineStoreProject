@@ -10,6 +10,7 @@ public class Order {
     private Cart cart;
     private BigDecimal totalPrice;
     private LocalDateTime orderTime;
+
     public Order(UUID orderId, Customer customer, Cart cart, BigDecimal totalPrice) {
         this.orderId = orderId;
         this.customer = customer;
