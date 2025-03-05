@@ -1,0 +1,10 @@
+ID zamówienia: 14f547ee-adff-48fe-94b0-1a2e587cfd6c
+Zamówione produkty: Cart{cartItems=[Product{id=b8a9ed36-fdcc-48f8-a5c4-24b1bffe46ae, name='MacBook Air', price=1200, quantity=1, processor=Processor{brand='Intel', model='i7', cores=12' GHz}, ram=RAM{name='HyperX', capacity=8'GB}, Product{id=e5fc1f0c-5ec1-4d45-aadb-75e897817565, name='Iphone 14 Pro', price=4999, quantity=2, color=PINK, batteryCapacity=2500, Product{id=cc5be7b8-cc64-4d35-96f1-947e186861e0, name='Samsung TV', price=5999, quantity=3]}
+Wartość zamówienia: 12198
+Imię klienta: Jan
+Nazwisko: Kowalski
+Adres Email klienta: jankowalski@example.com
+Numer telefonu klienta: 123456789
+Adres klienta: ul. Polna 12 Warszawa
+Zamówienie złożono: 2025-03-03T20:38:37.997060700
+
