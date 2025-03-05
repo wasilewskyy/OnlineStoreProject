@@ -2,12 +2,14 @@ package org.project;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public class Order {
     private UUID orderId;
     private Customer customer;
     private Cart cart;
+    private List<Product> products;
     private BigDecimal totalPrice;
     private LocalDateTime orderTime;
 
@@ -41,6 +43,10 @@ public class Order {
 
     public Customer getCustomer() {
         return customer;
+    }
+
+    public List<Product> getProducts() {
+        return products;
     }
 
     public void setCustomer(Customer customer) {
