@@ -1,46 +1,55 @@
 package org.project;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.*;
 
 public class MultiThreadedOrderProcessing {
+    private static final int THREAD_COUNT = 4;
+    private static final BlockingQueue<Order> orderQueue = new LinkedBlockingQueue<>();
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
+
     public static void main(String[] args) {
-        Cart cart = new Cart();
-
-        RAM ram1 = new RAM("HyperX", 8, RamUnit.GB);
-        Processor processor1 = new Processor("Intel", "i7", 12, CoresUnit.GHz);
-        Accessory accessory1 = new Accessory("Etui", new BigDecimal(29), "Iphone 14 Pro", "Skórzane");
-        Product computer1 = new Computer(UUID.randomUUID(), "MacBook Air", new BigDecimal(1200), 10, processor1, ram1);
-        Product smartphone1 = new Smartphone(UUID.randomUUID(), "Iphone 14 Pro", new BigDecimal(4999), 50, Color.PINK, 2500, accessory1);
-        Product electronics = new Electronics(UUID.randomUUID(), "Samsung TV", new BigDecimal(5999), 20);
-
-        cart.addProductToCart(computer1, 1);
-        cart.addProductToCart(smartphone1, 2);
-        cart.addProductToCart(electronics, 3);
-
-        Customer customer = new Customer("Jan", "Kowalski", "jankowalski@example.com", "123456789", "ul. Polna 12, Warszawa");
-
-        List<Thread> threads = new ArrayList<>();
-
-        for (int i = 1; i <= 10; i++) { // ordery musza tu przychodzic
-            Order order = new Order(UUID.randomUUID(), customer, cart, cart.calculateTotalPrice());
-            Thread thread = new OrderProcessor(order);
-            threads.add(thread);
-            thread.start();
+        for (int i = 0; i < THREAD_COUNT; i++) {
+            executorService.execute(() -> {
+                while (true) {
+                    try {
+                        Order order = orderQueue.take();
+                        new OrderProcessor(order).run();
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        break;
+                    }
+                }
+            });
         }
 
-        for (Thread thread : threads) {
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        IncomingOrders();
+
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void IncomingOrders() {
+        new Thread(() -> {
+            Customer customer = new Customer("Jan", "Kowalski", "jan@example.com", "123456789", "Ul. Przykładowa 1");
+            Cart cart = new Cart();
+            Product electronics = new Electronics(UUID.randomUUID(), "Samsung TV", new BigDecimal(5999), 20); // Przykładowy produkt
+            cart.addProductToCart(electronics, 1);
+
+            for (int i = 0; i < 20; i++) {
+                try {
+                    Order order = new Order(UUID.randomUUID(), customer, cart, cart.calculateTotalPrice());
+                    orderQueue.put(order);
+                    System.out.println("Dodano nowe zamówienie: " + order.getOrderId());
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
             }
-        }
-
-        System.out.println("Wszystkie zamówienia zostały przetworzone.");
+        }).start();
     }
 }
-

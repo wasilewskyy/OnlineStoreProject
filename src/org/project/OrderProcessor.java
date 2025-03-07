@@ -2,7 +2,7 @@ package org.project;
 
 import java.time.LocalDateTime;
 
-public class OrderProcessor extends Thread{
+public class OrderProcessor implements Runnable {
     private final Order order;
 
     public OrderProcessor(Order order) {
