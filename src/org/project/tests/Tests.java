@@ -11,6 +11,7 @@ public class Tests {
         creatingAndCheckingCorrectDisplayOfAllProducts();
         testingProductManager();
         testingTheUseOfTheShoppingCart();
+        testingTheUseOfOrderProcessor();
     }
 
     private static void creatingAndCheckingCorrectDisplayOfAllProducts() {
@@ -149,5 +150,42 @@ public class Tests {
         cart.checkout();
         cart.displayCartContents();
 
+    }
+    private static void testingTheUseOfOrderProcessor() {
+
+        // Tworzenie koszyka
+        Cart cart = new Cart();
+
+        // Tworzenie komponentów i produktów
+        RAM ram1 = new RAM("HyperX", 8, RamUnit.GB);
+        Processor processor1 = new Processor("Intel", "i7", 12, CoresUnit.GHz);
+        Accessory accessory1 = new Accessory("Etui", new BigDecimal(29), "Iphone 14 Pro", "Skórzane");
+        Product computer1 = new Computer(UUID.randomUUID(), "MacBook Air", new BigDecimal(1200), 10, processor1, ram1);
+        Product smartphone1 = new Smartphone(UUID.randomUUID(), "Iphone 14 Pro", new BigDecimal(4999), 50, Color.PINK, 2500, accessory1);
+        Product electronics = new Electronics(UUID.randomUUID(), "Samsung TV", new BigDecimal(5999), 20);
+
+        // Dodanie produktów do koszyka
+        cart.addProductToCart(computer1, 1);
+        cart.addProductToCart(smartphone1, 2);
+        cart.addProductToCart(electronics, 3);
+
+        // Tworzenie przykładowego klienta
+        Customer customer = new Customer("Jan", "Kowalski",  "jan.kowalski@example.com", "123456789","ul. Przykładowa 12, Warszawa");
+
+        // Tworzenie przykładowego zamówienia
+        Order order = new Order(UUID.randomUUID(), customer, cart, cart.calculateTotalPrice());
+
+        // Tworzenie OrderProcessor
+        OrderProcessor processor = new OrderProcessor();
+
+        // Testowanie klasy OrderProcessor
+        processor.processOrder(order);
+        System.out.println();
+        processor.generateInvoice(order);
+
+    }
+    private static void testingShoppingCLI() {
+        ShoppingCLI shoppingCLI = new ShoppingCLI();
+        shoppingCLI.startShopCLI();
     }
 }
