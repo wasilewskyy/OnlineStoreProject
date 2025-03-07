@@ -1,5 +1,10 @@
 package org.project;
 
 public interface CommandLine {
-    void start ();
+    void startShopCLI();
+    void viewProducts();
+    void addProductToCart();
+    void removeProductFromCart();
+    void viewCartContents();
+    void checkout();
 }
