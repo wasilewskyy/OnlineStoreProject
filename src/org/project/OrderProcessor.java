@@ -2,7 +2,20 @@ package org.project;
 
 import java.time.LocalDateTime;
 
-public class OrderProcessor {
+public class OrderProcessor extends Thread{
+    private final Order order;
+
+    public OrderProcessor(Order order) {
+        this.order = order;
+    }
+
+    @Override
+    public void run() {
+        processOrder(order);
+        generateInvoice(order);
+        System.out.println("Order " + order.getOrderId() + " processed");
+    }
+
     public void processOrder(Order order) {
         StringBuilder sb = new StringBuilder();
         sb.append("Przetwarzanie zamówienia dla: ").append(order.getCustomer().getCustomerName()).append("\n");
@@ -13,7 +26,6 @@ public class OrderProcessor {
         sb.append("Łączna kwota: ").append(order.getTotalPrice()).append(" PLN\n");
         System.out.println(sb.toString());
     }
-
     public void generateInvoice(Order order) {
         StringBuilder sb = new StringBuilder();
         sb.append("Generowanie faktury...\n");
