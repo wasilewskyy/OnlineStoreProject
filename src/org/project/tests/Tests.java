@@ -184,4 +184,8 @@ public class Tests {
         processor.generateInvoice(order);
 
     }
+    private static void testingShoppingCLI() {
+        ShoppingCLI shoppingCLI = new ShoppingCLI();
+        shoppingCLI.startShopCLI();
+    }
 }
