@@ -44,9 +44,9 @@ This project is a comprehensive online store system that enables product managem
 - Files / Lists for data storage  
 
 ## 🏁 Running the Application  
-
-Clone the repository:  
+ 
 ```bash
+Clone the repository:
 git clone <REPOSITORY_URL>
 
 Navigate to the project directory:
@@ -58,5 +58,6 @@ javac -d bin src/*.java
 Run the application:
 java -cp bin Main
 ```
+
 ## 📄 Authors
 Project created by Jakub Wasilewski.
