@@ -61,6 +61,8 @@ Run the application:
 
 java -cp bin Main
 
+```bash
+
 ## 📄 Authors
 
 Project created by Jakub Wasilewski.
