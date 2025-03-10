@@ -182,13 +182,10 @@ public class Tests {
         Order order = new Order(UUID.randomUUID(), customer, cart, cart.calculateTotalPrice());
 
         // Tworzenie OrderProcessor
-        OrderProcessor processor = new OrderProcessor();
+        OrderProcessor processor = new OrderProcessor(order);
 
         // Testowanie klasy OrderProcessor
-        processor.processOrder(order);
-        System.out.println();
-        processor.generateInvoice(order);
-
+        processor.run();
     }
     private static void testingOrderSavingToTxt() {
 
