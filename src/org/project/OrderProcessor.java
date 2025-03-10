@@ -1,6 +1,7 @@
 package org.project;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class OrderProcessor {
     public void processOrder(Order order) {
@@ -16,9 +17,10 @@ public class OrderProcessor {
 
     public void generateInvoice(Order order) {
         StringBuilder sb = new StringBuilder();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         sb.append("Generowanie faktury...\n");
         sb.append("Faktura dla zamówienia o numerze: ").append(order.getOrderId()).append("\n");
-        sb.append("Data zamówienia: ").append(LocalDateTime.now()).append("\n");
+        sb.append("Data zamówienia: ").append(order.getOrderTime().format(String.valueOf(formatter))).append("\n");
         sb.append("Klient: ").append(order.getCustomer().getCustomerName()).append(" ")
                 .append(order.getCustomer().getCustomerLastName()).append("\n");
         sb.append("Numer telefonu klienta: ").append(order.getCustomer().getPhoneNumber()).append("\n");

@@ -2,6 +2,7 @@ package org.project;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,6 +24,11 @@ public class Order {
 
     public void setOrderTime(LocalDateTime orderTime) {
         this.orderTime = orderTime;
+    }
+
+    public String getOrderTime() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return orderTime.format(formatter);
     }
 
     public BigDecimal getTotalPrice() {
