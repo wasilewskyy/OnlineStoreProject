@@ -10,14 +10,14 @@ public class MultiThreadedOrderProcessing {
     private static final ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
 
     public static void main(String[] args) {
-        for (int i = 0; i < THREAD_COUNT; i++) {
+        for (int i = 0; i < THREAD_COUNT; i++) { //wywalic petle
             executorService.execute(() -> {
-                while (true) {
+                while (true) { //metoda sprawdzajaca czy jest jeszcze cos w tej kolejce
                     try {
                         Order order = orderQueue.take();
-                        new OrderProcessor(order).run();
+                        new OrderProcessor(order).run(); //currentthread.getname
                     } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
+                        Thread.currentThread().interrupt(); // dodac customowy blad
                         break;
                     }
                 }
