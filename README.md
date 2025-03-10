@@ -50,19 +50,13 @@ Clone the repository:
 git clone <REPOSITORY_URL>
 
 Navigate to the project directory:
-
 cd online-store
 
 Compile the code:
-
 javac -d bin src/*.java
 
 Run the application:
-
 java -cp bin Main
 
-```bash
-
-## 📄 Authors
-
+📄 Authors
 Project created by Jakub Wasilewski.
