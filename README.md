@@ -57,6 +57,6 @@ javac -d bin src/*.java
 
 Run the application:
 java -cp bin Main
-
-📄 Authors
+```
+## 📄 Authors
 Project created by Jakub Wasilewski.
