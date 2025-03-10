@@ -1,13 +1,15 @@
 package org.project.tests;
 
 import org.project.*;
+import org.project.exception.OrderProcessingException;
+import org.project.exception.ProductNotAvailableException;
 import org.project.exception.ProductNotFoundException;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
 public class Tests {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws OrderProcessingException, ProductNotAvailableException {
         creatingAndCheckingCorrectDisplayOfAllProducts();
         testingProductManager();
         testingTheUseOfTheShoppingCart();
@@ -50,7 +52,7 @@ public class Tests {
 
     }
 
-    private static void testingProductManager() {
+    private static void testingProductManager() throws ProductNotAvailableException {
         ProductManager productManager = new ProductManager();
 
         // Tworzenie produktów
@@ -119,7 +121,7 @@ public class Tests {
         System.out.println("\nKoszyk został usunięty.");
     }
 
-    private static void testingTheUseOfTheShoppingCart() {
+    private static void testingTheUseOfTheShoppingCart() throws ProductNotAvailableException, OrderProcessingException {
         Cart cart = new Cart();
 
         // Tworzenie produktów
@@ -151,7 +153,7 @@ public class Tests {
         cart.displayCartContents();
 
     }
-    private static void testingTheUseOfOrderProcessor() {
+    private static void testingTheUseOfOrderProcessor() throws OrderProcessingException, ProductNotAvailableException {
 
         // Tworzenie koszyka
         Cart cart = new Cart();
@@ -184,7 +186,7 @@ public class Tests {
         processor.generateInvoice(order);
 
     }
-    private static void testingShoppingCLI() {
+    private static void testingShoppingCLI() throws OrderProcessingException {
         ShoppingCLI shoppingCLI = new ShoppingCLI();
         shoppingCLI.startShopCLI();
     }

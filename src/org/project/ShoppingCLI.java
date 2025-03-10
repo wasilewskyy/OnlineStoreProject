@@ -1,5 +1,8 @@
 package org.project;
 
+import org.project.exception.OrderProcessingException;
+import org.project.exception.ProductNotAvailableException;
+
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -18,7 +21,7 @@ public class ShoppingCLI implements CommandLine {
     }
 
     @Override
-    public void startShopCLI() {
+    public void startShopCLI() throws OrderProcessingException {
         while (true) {
             System.out.println("\n1. View products");
             System.out.println("2. Add product to cart");
@@ -63,8 +66,8 @@ public class ShoppingCLI implements CommandLine {
             try {
                 cart.addProductToCart(availableProducts.get(productNumberToAdd - 1), quantityToAdd);
                 System.out.println("Product added to cart.");
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+            } catch (ProductNotAvailableException e) {
+                throw new RuntimeException(e);
             }
         } else {
             System.out.println("Invalid product number.");
@@ -81,8 +84,8 @@ public class ShoppingCLI implements CommandLine {
             try {
                 cart.removeProductFromCart(availableProducts.get(productNumberToRemove - 1).getId(), quantityToRemove);
                 System.out.println("Product removed from cart.");
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+            } catch (ProductNotAvailableException e) {
+                throw new RuntimeException(e);
             }
         } else {
             System.out.println("Invalid product number.");
@@ -95,7 +98,7 @@ public class ShoppingCLI implements CommandLine {
     }
 
     @Override
-    public void checkout() {
+    public void checkout() throws OrderProcessingException {
         cart.checkout();
     }
 }

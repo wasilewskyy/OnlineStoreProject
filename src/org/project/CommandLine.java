@@ -1,10 +1,12 @@
 package org.project;
 
+import org.project.exception.OrderProcessingException;
+
 public interface CommandLine {
-    void startShopCLI();
+    void startShopCLI() throws OrderProcessingException;
     void viewProducts();
     void addProductToCart();
     void removeProductFromCart();
     void viewCartContents();
-    void checkout();
+    void checkout() throws OrderProcessingException;
 }

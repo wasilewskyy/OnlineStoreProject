@@ -1,5 +1,6 @@
 package org.project;
 
+import org.project.exception.ProductNotAvailableException;
 import org.project.exception.ProductNotFoundException;
 
 import java.math.BigDecimal;
@@ -58,7 +59,7 @@ public class ProductManager {
         return cart;
     }
 
-    public void addProductToCart(UUID cartId, UUID productId, int quantity) {
+    public void addProductToCart(UUID cartId, UUID productId, int quantity) throws ProductNotAvailableException {
         Product product = getProductById(productId);
         if (product.getQuantity() < quantity) {
             throw new IllegalArgumentException("There is not enough product in stock.");
@@ -69,7 +70,7 @@ public class ProductManager {
         product.decreaseQuantity(quantity);
     }
 
-    public void removeProductFromCart(UUID cartId, UUID productId, int quantity) {
+    public void removeProductFromCart(UUID cartId, UUID productId, int quantity) throws ProductNotAvailableException {
         Cart cart = getCartById(cartId);
         cart.removeProductFromCart(productId, quantity);
 

@@ -1,9 +1,13 @@
 package org.project;
 
+import org.project.exception.OrderProcessingException;
 import java.time.LocalDateTime;
 
 public class OrderProcessor {
-    public void processOrder(Order order) {
+    public void processOrder(Order order) throws OrderProcessingException {
+        if (order == null || order.getProducts().isEmpty()) {
+            throw new OrderProcessingException("Order is invalid or contains no products.");
+        }
         StringBuilder sb = new StringBuilder();
         sb.append("Przetwarzanie zamówienia dla: ").append(order.getCustomer().getCustomerName()).append("\n");
         sb.append("Produkty w zamówieniu:\n");
@@ -14,7 +18,10 @@ public class OrderProcessor {
         System.out.println(sb.toString());
     }
 
-    public void generateInvoice(Order order) {
+    public void generateInvoice(Order order) throws OrderProcessingException {
+        if (order == null) {
+            throw new OrderProcessingException("Cannot generate invoice for a null order.");
+        }
         StringBuilder sb = new StringBuilder();
         sb.append("Generowanie faktury...\n");
         sb.append("Faktura dla zamówienia o numerze: ").append(order.getOrderId()).append("\n");
