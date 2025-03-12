@@ -22,12 +22,12 @@ public class Order {
         this.orderTime = LocalDateTime.now();
     }
 
-    public void setOrderTime(LocalDateTime orderTime) {
-        this.orderTime = orderTime;
-    }
-
     public LocalDateTime getOrderTime() {
         return orderTime;
+    }
+
+    public void setOrderTime(LocalDateTime orderTime) {
+        this.orderTime = orderTime;
     }
 
     public void updateOrderTime() {
