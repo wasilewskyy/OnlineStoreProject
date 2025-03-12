@@ -30,10 +30,6 @@ public class Order {
         this.orderTime = orderTime;
     }
 
-    public LocalDateTime getOrderTime() {
-        return orderTime;
-    }
-
     public void updateOrderTime() {
         this.orderTime = LocalDateTime.now();
     }
