@@ -59,7 +59,7 @@ public class ProductManager {
         return cart;
     }
 
-    public void addProductToCart(UUID cartId, UUID productId, int quantity) throws ProductNotAvailableException {
+    public void addProductToCart(UUID cartId, UUID productId, int quantity) {
         Product product = getProductById(productId);
         if (product.getQuantity() < quantity) {
             throw new IllegalArgumentException("There is not enough product in stock.");
@@ -70,7 +70,7 @@ public class ProductManager {
         product.decreaseQuantity(quantity);
     }
 
-    public void removeProductFromCart(UUID cartId, UUID productId, int quantity) throws ProductNotAvailableException {
+    public void removeProductFromCart(UUID cartId, UUID productId, int quantity) {
         Cart cart = getCartById(cartId);
         cart.removeProductFromCart(productId, quantity);
 

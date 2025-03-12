@@ -4,7 +4,7 @@ import org.project.exception.OrderProcessingException;
 import java.time.LocalDateTime;
 
 public class OrderProcessor {
-    public void processOrder(Order order) throws OrderProcessingException {
+    public void processOrder(Order order) {
         if (order == null || order.getProducts().isEmpty()) {
             throw new OrderProcessingException("Order is invalid or contains no products.");
         }
@@ -18,7 +18,7 @@ public class OrderProcessor {
         System.out.println(sb.toString());
     }
 
-    public void generateInvoice(Order order) throws OrderProcessingException {
+    public void generateInvoice(Order order) {
         if (order == null) {
             throw new OrderProcessingException("Cannot generate invoice for a null order.");
         }

@@ -1,8 +1,6 @@
 package org.project;
 
-import org.project.exception.OrderProcessingException;
 import org.project.exception.ProductNotAvailableException;
-
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -21,7 +19,7 @@ public class ShoppingCLI implements CommandLine {
     }
 
     @Override
-    public void startShopCLI() throws OrderProcessingException {
+    public void startShopCLI() {
         while (true) {
             System.out.println("\n1. View products");
             System.out.println("2. Add product to cart");
@@ -98,7 +96,7 @@ public class ShoppingCLI implements CommandLine {
     }
 
     @Override
-    public void checkout() throws OrderProcessingException {
+    public void checkout() {
         cart.checkout();
     }
 }

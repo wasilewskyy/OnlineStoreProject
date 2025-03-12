@@ -14,7 +14,7 @@ public class Cart {
         this.cartItems = new ArrayList<>();
     }
 
-    public void addProductToCart(Product product, int quantity) throws ProductNotAvailableException {
+    public void addProductToCart(Product product, int quantity) {
         if (product == null) {
             throw new IllegalArgumentException("Product cannot be null.");
         }
@@ -31,7 +31,7 @@ public class Cart {
         }
     }
 
-    public void removeProductFromCart(UUID productId, int quantity) throws ProductNotAvailableException {
+    public void removeProductFromCart(UUID productId, int quantity) {
         Product cartProduct = findProductInCart(productId);
         if (cartProduct == null) {
             throw new ProductNotAvailableException("Product not found in cart.");
@@ -73,7 +73,7 @@ public class Cart {
         }
     }
 
-    public void checkout() throws OrderProcessingException {
+    public void checkout() {
         if (cartItems.isEmpty()) {
             throw new OrderProcessingException("Cannot place an order, the cart is empty.");
         } else {
