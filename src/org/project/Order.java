@@ -26,9 +26,12 @@ public class Order {
         this.orderTime = orderTime;
     }
 
-    public String getOrderTime() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return orderTime.format(formatter);
+    public LocalDateTime getOrderTime() {
+        return orderTime;
+    }
+
+    public void updateOrderTime() {
+        this.orderTime = LocalDateTime.now();
     }
 
     public BigDecimal getTotalPrice() {
