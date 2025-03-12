@@ -13,12 +13,15 @@ public class Order {
     private List<Product> products;
     private BigDecimal totalPrice;
     private LocalDateTime orderTime;
+    private BigDecimal discountAmount = BigDecimal.ZERO;
+    private BigDecimal finalPrice;
 
     public Order(UUID orderId, Customer customer, Cart cart, BigDecimal totalPrice) {
         this.orderId = orderId;
         this.customer = customer;
         this.cart = cart;
         this.totalPrice = totalPrice;
+        this.finalPrice = cart.calculateTotalPrice();
         this.orderTime = LocalDateTime.now();
     }
 
@@ -38,9 +41,35 @@ public class Order {
         return totalPrice;
     }
 
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
+    public void applyPercentageDiscount(BigDecimal percentage) {
+        if (percentage.compareTo(BigDecimal.ZERO) > 0 && percentage.compareTo(new BigDecimal("100")) <= 0) {
+            BigDecimal discount = cart.calculateTotalPrice().multiply(percentage).divide(new BigDecimal("100"));
+            discountAmount = discountAmount.add(discount);
+            updateFinalPrice();
+        }
     }
+
+    public void applyFixedDiscount(BigDecimal amount) {
+        if (amount.compareTo(BigDecimal.ZERO) > 0 && amount.compareTo(cart.calculateTotalPrice()) <= 0) {
+            discountAmount = discountAmount.add(amount);
+            updateFinalPrice();
+        }
+    }
+
+    private void updateFinalPrice() {
+        this.finalPrice = cart.calculateTotalPrice().subtract(discountAmount);
+    }
+
+    public BigDecimal getFinalPrice() {
+        return finalPrice;
+    }
+
+    public void applyPromotions() {
+        if (cart.calculateTotalPrice().compareTo(new BigDecimal("500")) > 0) {
+            applyPercentageDiscount(new BigDecimal("10"));
+        }
+    }
+
 
     public UUID getOrderId() {
         return orderId;
@@ -75,8 +104,10 @@ public class Order {
         return "Order{" +
                 "OrderID=" + orderId +
                 ", customer data=" + customer +
-                ", products=" + cart +
-                ", total amount=" + totalPrice +
+                ", cart items=" + cart +
+                ", total amount=" + cart.calculateTotalPrice() +
+                ", discount applied=" + discountAmount +
+                ", final amount=" + finalPrice +
                 '}';
     }
 }
