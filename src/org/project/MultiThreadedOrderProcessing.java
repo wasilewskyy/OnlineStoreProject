@@ -1,5 +1,7 @@
 package org.project;
 
+import org.project.exception.ThreadInterruptedException;
+
 import java.math.BigDecimal;
 import java.util.UUID;
 import java.util.concurrent.*;
@@ -18,8 +20,7 @@ public class MultiThreadedOrderProcessing {
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            System.err.println("Główny wątek został przerwany.");
+            throw new RuntimeException("Główny wątek został przerwany.", e);
         } finally {
             shutdownProcessing();
         }
@@ -36,9 +37,7 @@ public class MultiThreadedOrderProcessing {
                             executorService.execute(new OrderProcessor(order));
                         }
                     } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                        System.err.println(Thread.currentThread().getName() + " został przerwany.");
-                        break;
+                        throw new ThreadInterruptedException(Thread.currentThread().getName() + " został przerwany.");
                     }
                 }
             });
@@ -60,9 +59,7 @@ public class MultiThreadedOrderProcessing {
                     System.out.println("Dodano nowe zamówienie: " + order.getOrderId());
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    System.err.println("Wątek dodający zamówienia został przerwany.");
-                    break;
+                    throw new ThreadInterruptedException("Wątek dodający zamówienia został przerwany.");
                 }
             }
         }).start();

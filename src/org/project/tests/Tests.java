@@ -14,9 +14,9 @@ public class Tests {
         creatingAndCheckingCorrectDisplayOfAllProducts();
         testingProductManager();
         testingTheUseOfTheShoppingCart();
-//        creatingAndCheckingCorrectDisplayOfAllProducts();
-//        testingProductManager();
-//        testingTheUseOfTheShoppingCart();
+        creatingAndCheckingCorrectDisplayOfAllProducts();
+        testingProductManager();
+        testingTheUseOfTheShoppingCart();
         testingOrderSavingToTxt();
         testingTheUseOfOrderProcessor();
         testOrderTimeUpdateDuringProcessing();
@@ -159,10 +159,12 @@ public class Tests {
         cart.displayCartContents();
 
     }
+
     private static void testingShoppingCLI() {
         ShoppingCLI shoppingCLI = new ShoppingCLI();
         shoppingCLI.startShopCLI();
     }
+
     private static void testOrderTimeUpdateDuringProcessing() {
         Customer customer = new Customer("Jan", "Kowalski",  "jan.kowalski@example.com", "123456789","ul. Przykładowa 12, Warszawa");
         Cart cart = new Cart();
@@ -190,6 +192,7 @@ public class Tests {
         System.out.println("Before: " + beforeProcessing);
         System.out.println("After: " + afterProcessing);
     }
+
     private static void testingTheUseOfOrderProcessor() {
 
         // Tworzenie koszyka
@@ -220,6 +223,7 @@ public class Tests {
         // Testowanie klasy OrderProcessor
         processor.run();
     }
+
     private static void testingOrderSavingToTxt() {
 
         // Tworzenie koszyka
