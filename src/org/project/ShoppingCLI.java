@@ -1,5 +1,7 @@
 package org.project;
 
+import org.project.exception.OrderProcessingException;
+import org.project.exception.ProductNotAvailableException;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -60,12 +62,12 @@ public class ShoppingCLI implements CommandLine {
         if (productNumberToAdd >= 1 && productNumberToAdd <= availableProducts.size()) {
             System.out.print("Enter quantity: ");
             int quantityToAdd = scanner.nextInt();
-            try {
-                cart.addProductToCart(availableProducts.get(productNumberToAdd - 1), quantityToAdd);
-                System.out.println("Product added to cart.");
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+            Product productToAdd = availableProducts.get(productNumberToAdd - 1);
+            if (quantityToAdd > productToAdd.getQuantity()) {
+                throw new ProductNotAvailableException("Not enough stock for " + productToAdd.getName());
             }
+            cart.addProductToCart(productToAdd, quantityToAdd);
+            System.out.println("Product added to cart.");
         } else {
             System.out.println("Invalid product number.");
         }
@@ -78,12 +80,8 @@ public class ShoppingCLI implements CommandLine {
         if (productNumberToRemove >= 1 && productNumberToRemove <= availableProducts.size()) {
             System.out.print("Enter quantity to remove: ");
             int quantityToRemove = scanner.nextInt();
-            try {
-                cart.removeProductFromCart(availableProducts.get(productNumberToRemove - 1).getId(), quantityToRemove);
-                System.out.println("Product removed from cart.");
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
+            cart.removeProductFromCart(availableProducts.get(productNumberToRemove - 1).getId(), quantityToRemove);
+            System.out.println("Product removed from cart.");
         } else {
             System.out.println("Invalid product number.");
         }
@@ -96,6 +94,11 @@ public class ShoppingCLI implements CommandLine {
 
     @Override
     public void checkout() {
-        cart.checkout();
+        try {
+            cart.checkout();
+            System.out.println("Checkout completed successfully.");
+        } catch (OrderProcessingException e) {
+            System.out.println("Error during checkout: " + e.getMessage());
+        }
     }
 }

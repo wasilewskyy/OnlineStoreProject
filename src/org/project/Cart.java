@@ -1,5 +1,7 @@
 package org.project;
 
+import org.project.exception.OrderProcessingException;
+import org.project.exception.ProductNotAvailableException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +19,7 @@ public class Cart {
             throw new IllegalArgumentException("Product cannot be null.");
         }
         if (product.getQuantity() < quantity || quantity <= 0) {
-            throw new IllegalArgumentException("Invalid quantity for product: " + product.getName());
+            throw new ProductNotAvailableException("Invalid quantity for product: " + product.getName());
         }
 
         Product cartProduct = findProductInCart(product.getId());
@@ -31,11 +33,9 @@ public class Cart {
 
     public void removeProductFromCart(UUID productId, int quantity) {
         Product cartProduct = findProductInCart(productId);
-
         if (cartProduct == null) {
-            throw new IllegalArgumentException("Product not found in cart.");
+            throw new ProductNotAvailableException("Product not found in cart.");
         }
-
         if (cartProduct.getQuantity() <= quantity) {
             cartItems.remove(cartProduct);
         } else {
@@ -75,7 +75,7 @@ public class Cart {
 
     public void checkout() {
         if (cartItems.isEmpty()) {
-            System.out.println("Cannot place an order, the cart is empty.");
+            throw new OrderProcessingException("Cannot place an order, the cart is empty.");
         } else {
             System.out.println("Order has been placed:");
             displayCartContents();
