@@ -20,6 +20,7 @@ public class OrderProcessor implements Runnable {
     private void processOrder() {
         StringBuilder sb = new StringBuilder();
         sb.append("Przetwarzanie zamówienia dla: ").append(order.getCustomer().getCustomerName()).append("\n");
+        sb.append("Data zamówienia: ").append(order.getOrderTime()).append("\n");
         sb.append("Produkty w zamówieniu:\n");
         if (order.getProducts() == null || order.getProducts().isEmpty()) {
             sb.append("Brak produktów w zamówieniu.\n");
@@ -28,6 +29,7 @@ public class OrderProcessor implements Runnable {
                 sb.append("- ").append(product.getName()).append(" | Cena: ").append(product.getPrice()).append(" PLN\n");
             }
         }
+
         sb.append("Łączna kwota: ").append(order.getTotalPrice()).append(" PLN\n");
         System.out.println(sb);
     }

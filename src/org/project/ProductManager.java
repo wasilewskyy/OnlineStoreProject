@@ -1,5 +1,6 @@
 package org.project;
 
+import org.project.exception.ProductNotAvailableException;
 import org.project.exception.ProductNotFoundException;
 
 import java.math.BigDecimal;

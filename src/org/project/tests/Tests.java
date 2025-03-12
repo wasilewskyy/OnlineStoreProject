@@ -6,6 +6,7 @@ import org.project.exception.ProductNotFoundException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Tests {
@@ -18,6 +19,7 @@ public class Tests {
 //        testingTheUseOfTheShoppingCart();
         testingOrderSavingToTxt();
         testingTheUseOfOrderProcessor();
+        testOrderTimeUpdateDuringProcessing();
     }
 
     private static void creatingAndCheckingCorrectDisplayOfAllProducts() {
@@ -156,6 +158,37 @@ public class Tests {
         cart.checkout();
         cart.displayCartContents();
 
+    }
+    private static void testingShoppingCLI() {
+        ShoppingCLI shoppingCLI = new ShoppingCLI();
+        shoppingCLI.startShopCLI();
+    }
+    private static void testOrderTimeUpdateDuringProcessing() {
+        Customer customer = new Customer("Jan", "Kowalski",  "jan.kowalski@example.com", "123456789","ul. Przykładowa 12, Warszawa");
+        Cart cart = new Cart();
+
+        RAM ram1 = new RAM("HyperX", 8, RamUnit.GB);
+        Processor processor1 = new Processor("Intel", "i7", 12, CoresUnit.GHz);
+        Accessory accessory1 = new Accessory("Etui", new BigDecimal(29), "Iphone 14 Pro", "Skórzane");
+        Product computer1 = new Computer(UUID.randomUUID(), "MacBook Air", new BigDecimal(1200), 10, processor1, ram1);
+        Product smartphone1 = new Smartphone(UUID.randomUUID(), "Iphone 14 Pro", new BigDecimal(4999), 50, Color.PINK, 2500, accessory1);
+        Product electronics = new Electronics(UUID.randomUUID(), "Samsung TV", new BigDecimal(5999), 20);
+
+        cart.addProductToCart(computer1, 1);
+        cart.addProductToCart(smartphone1, 2);
+        cart.addProductToCart(electronics, 3);
+
+        Order order = new Order(UUID.randomUUID(), customer, cart, cart.calculateTotalPrice());
+
+        LocalDateTime beforeProcessing = order.getOrderTime();
+
+        OrderProcessor processor = new OrderProcessor();
+        processor.processOrder(order);
+
+        LocalDateTime afterProcessing = order.getOrderTime();
+
+        System.out.println("Before: " + beforeProcessing);
+        System.out.println("After: " + afterProcessing);
     }
     private static void testingTheUseOfOrderProcessor() {
 
