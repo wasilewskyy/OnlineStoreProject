@@ -1,14 +1,23 @@
 package org.project;
 
-import org.project.exception.OrderProcessingException;
-import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-public class OrderProcessor {
-    public void processOrder(Order order) {
-        order.updateOrderTime();
-        if (order == null || order.getProducts().isEmpty()) {
-            throw new OrderProcessingException("Order is invalid or contains no products.");
-        }
+public class OrderProcessor implements Runnable {
+    private final Order order;
+
+    public OrderProcessor(Order order) {
+        this.order = order;
+    }
+
+    @Override
+    public void run() {
+        System.out.println(Thread.currentThread().getName() + " przetwarza zamówienie: " + order.getOrderId());
+        processOrder();
+        generateInvoice();
+        System.out.println("Order " + order.getOrderId() + " processed by " + Thread.currentThread().getName());
+    }
+
+    private void processOrder() {
         StringBuilder sb = new StringBuilder();
         sb.append("Przetwarzanie zamówienia dla: ").append(order.getCustomer().getCustomerName()).append("\n");
         sb.append("Data zamówienia: ").append(order.getOrderTime()).append("\n");
@@ -25,25 +34,28 @@ public class OrderProcessor {
         System.out.println(sb);
     }
 
-    public void generateInvoice(Order order) {
-        if (order == null) {
-            throw new OrderProcessingException("Cannot generate invoice for a null order.");
-        }
+    private void generateInvoice() {
         StringBuilder sb = new StringBuilder();
         sb.append("Generowanie faktury...\n");
         sb.append("Faktura dla zamówienia o numerze: ").append(order.getOrderId()).append("\n");
-        sb.append("Data zamówienia: ").append(order.getOrderTime()).append("\n");
-        sb.append("Klient: ").append(order.getCustomer().getCustomerName()).append(" ")
-                .append(order.getCustomer().getCustomerLastName()).append("\n");
-        sb.append("Numer telefonu klienta: ").append(order.getCustomer().getPhoneNumber()).append("\n");
-        sb.append("Adres email: ").append(order.getCustomer().getEmail()).append("\n");
-        sb.append("Adres dostawy: ").append(order.getCustomer().getAddress()).append("\n");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        sb.append("Data zamówienia: ").append(order.getOrderTime().format(formatter)).append("\n");
+        Customer customer = order.getCustomer();
+        sb.append("Klient: ").append(customer.getCustomerName()).append(" ")
+                .append(customer.getCustomerLastName()).append("\n");
+        sb.append("Numer telefonu: ").append(customer.getPhoneNumber()).append("\n");
+        sb.append("Adres email: ").append(customer.getEmail()).append("\n");
+        sb.append("Adres dostawy: ").append(customer.getAddress()).append("\n");
         sb.append("Produkty:\n");
-        for (Product product : order.getProducts()) {
-            sb.append("- ").append(product.getName()).append(" - ").append(product.getPrice()).append(" PLN\n");
+        if (order.getProducts() == null || order.getProducts().isEmpty()) {
+            sb.append("Brak produktów.\n");
+        } else {
+            for (Product product : order.getProducts()) {
+                sb.append("- ").append(product.getName()).append(" - ").append(product.getPrice()).append(" PLN\n");
+            }
         }
         sb.append("Łączna suma zamówienia: ").append(order.getTotalPrice()).append(" PLN\n");
-        sb.append("Pomyślnie wygenerowano fakturę.\n");
-        System.out.println(sb.toString());
+        sb.append("Faktura wygenerowana pomyślnie.\n");
+        System.out.println(sb);
     }
 }
