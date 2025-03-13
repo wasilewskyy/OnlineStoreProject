@@ -2,7 +2,6 @@ package org.project;
 
 import java.math.BigDecimal;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,20 +27,12 @@ public class Order {
         return orderTime;
     }
 
-    public void setOrderTime(ZonedDateTime orderTime) {
+    public String orderTime() {
+        ZoneId clientZone = ZoneId.systemDefault();
+        ZonedDateTime orderTime = ZonedDateTime.now(clientZone);
+        System.out.println("Order time (" + clientZone + "): " + orderTime);
         this.orderTime = orderTime;
-    }
-
-    public void updateOrderTime() {
-        this.orderTime = orderTime;
-    }
-
-    public void markOrderAsProcessed() {
-        ZoneId zoneId = ZoneId.systemDefault();
-        ZonedDateTime timeNow = ZonedDateTime.now();
-        System.out.println("Order time (" + zoneId + "): " + timeNow);
-        this.orderTime = OffsetDateTime.of(LocalDateTime.from(timeNow), zoneId.getRules().getOffset(Instant.from(timeNow))).atZoneSameInstant(ZoneId.of("Europe/Warsaw"));
-        System.out.println("Converted order time (Europe/Warsaw): " + this.orderTime);
+        return "Data zamówienia (" + clientZone + "): " + orderTime;
     }
 
     public BigDecimal getTotalPrice() {

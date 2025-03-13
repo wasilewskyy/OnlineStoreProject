@@ -1,7 +1,5 @@
 package org.project;
 
-import java.time.format.DateTimeFormatter;
-
 public class OrderProcessor implements Runnable {
     private final Order order;
 
@@ -20,7 +18,7 @@ public class OrderProcessor implements Runnable {
     private void processOrder() {
         StringBuilder sb = new StringBuilder();
         sb.append("Przetwarzanie zamówienia dla: ").append(order.getCustomer().getCustomerName()).append("\n");
-        sb.append("Data zamówienia: ").append(order.getOrderTime()).append("\n");
+        sb.append(order.orderTime()).append("\n");
         sb.append("Produkty w zamówieniu:\n");
         if (order.getProducts() == null || order.getProducts().isEmpty()) {
             sb.append("Brak produktów w zamówieniu.\n");
@@ -38,8 +36,7 @@ public class OrderProcessor implements Runnable {
         StringBuilder sb = new StringBuilder();
         sb.append("Generowanie faktury...\n");
         sb.append("Faktura dla zamówienia o numerze: ").append(order.getOrderId()).append("\n");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        sb.append("Data zamówienia: ").append(order.getOrderTime().format(formatter)).append("\n");
+        sb.append(order.orderTime()).append("\n");
         Customer customer = order.getCustomer();
         sb.append("Klient: ").append(customer.getCustomerName()).append(" ")
                 .append(customer.getCustomerLastName()).append("\n");
