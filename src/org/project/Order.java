@@ -1,7 +1,7 @@
 package org.project;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
@@ -12,29 +12,37 @@ public class Order {
     private Cart cart;
     private List<Product> products;
     private BigDecimal totalPrice;
-    private LocalDateTime orderTime;
+    private ZonedDateTime orderTime;
     private BigDecimal discountAmount = BigDecimal.ZERO;
     private BigDecimal finalPrice;
 
-    public Order(UUID orderId, Customer customer, Cart cart, BigDecimal totalPrice) {
+    public Order(UUID orderId, Customer customer, Cart cart, BigDecimal totalPrice, ZoneId orderTime) {
         this.orderId = orderId;
         this.customer = customer;
         this.cart = cart;
         this.totalPrice = totalPrice;
         this.finalPrice = cart.calculateTotalPrice();
-        this.orderTime = LocalDateTime.now();
+        this.orderTime = ZonedDateTime.now(orderTime);
     }
 
-    public LocalDateTime getOrderTime() {
+    public ZonedDateTime getOrderTime() {
         return orderTime;
     }
 
-    public void setOrderTime(LocalDateTime orderTime) {
+    public void setOrderTime(ZonedDateTime orderTime) {
         this.orderTime = orderTime;
     }
 
     public void updateOrderTime() {
-        this.orderTime = LocalDateTime.now();
+        this.orderTime = orderTime;
+    }
+
+    public void markOrderAsProcessed() {
+        ZoneId zoneId = ZoneId.systemDefault();
+        ZonedDateTime timeNow = ZonedDateTime.now();
+        System.out.println("Order time (" + zoneId + "): " + timeNow);
+        this.orderTime = OffsetDateTime.of(LocalDateTime.from(timeNow), zoneId.getRules().getOffset(Instant.from(timeNow))).atZoneSameInstant(ZoneId.of("Europe/Warsaw"));
+        System.out.println("Converted order time (Europe/Warsaw): " + this.orderTime);
     }
 
     public BigDecimal getTotalPrice() {
