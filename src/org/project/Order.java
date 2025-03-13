@@ -13,12 +13,13 @@ public class Order {
     private List<Product> products;
     private BigDecimal totalPrice;
     private LocalDateTime orderTime;
+    private BigDecimal discountAmount = BigDecimal.ZERO;
 
-    public Order(UUID orderId, Customer customer, Cart cart, BigDecimal totalPrice) {
+    public Order(UUID orderId, Customer customer, Cart cart) {
         this.orderId = orderId;
         this.customer = customer;
         this.cart = cart;
-        this.totalPrice = totalPrice;
+        this.totalPrice = cart.calculateTotalPrice();
         this.orderTime = LocalDateTime.now();
     }
 
@@ -38,8 +39,25 @@ public class Order {
         return totalPrice;
     }
 
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
+    public void applyPercentageDiscount(BigDecimal percentage) {
+        if (percentage.compareTo(BigDecimal.ZERO) <= 0 || percentage.compareTo(new BigDecimal("100")) > 0) {
+            throw new IllegalArgumentException("Invalid discount percentage. Must be between 0 and 100.");
+        }
+        BigDecimal discount = totalPrice.multiply(percentage).divide(new BigDecimal("100"));
+        totalPrice = totalPrice.subtract(discount);
+    }
+
+    public void applyFixedDiscount(BigDecimal amount) {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0 || amount.compareTo(totalPrice) > 0) {
+            throw new IllegalArgumentException("Invalid discount amount. Must be greater than 0 and less than total price.");
+        }
+        totalPrice = totalPrice.subtract(amount);
+    }
+
+    public void applyPromotions() {
+        if (totalPrice.compareTo(new BigDecimal("500")) > 0) {
+            applyPercentageDiscount(new BigDecimal("10"));
+        }
     }
 
     public UUID getOrderId() {
@@ -75,8 +93,9 @@ public class Order {
         return "Order{" +
                 "OrderID=" + orderId +
                 ", customer data=" + customer +
-                ", products=" + cart +
-                ", total amount=" + totalPrice +
+                ", cart items=" + cart +
+                ", total amount=" + cart.calculateTotalPrice() +
+                ", discount applied=" + discountAmount +
                 '}';
     }
 }

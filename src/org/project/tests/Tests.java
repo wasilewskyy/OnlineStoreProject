@@ -20,6 +20,7 @@ public class Tests {
         testingOrderSavingToTxt();
         testingTheUseOfOrderProcessor();
         testOrderTimeUpdateDuringProcessing();
+        testingDiscount();
     }
 
     private static void creatingAndCheckingCorrectDisplayOfAllProducts() {
@@ -253,5 +254,38 @@ public class Tests {
 
         // Zapisanie zamówień do pliku
         SaveOrders.saveOrdersToTxtFile(orders);
+    }
+
+    private static void testingDiscount() {
+
+        UUID orderId = UUID.randomUUID();
+        Customer customer = new Customer("Jan", "Kowalski", "jankowalski@example.com", "123456789", "ul. Polna 12, Warszawa");
+        Cart cart = new Cart();
+
+        RAM ram1 = new RAM("HyperX", 8, RamUnit.GB);
+        Processor processor1 = new Processor("Intel", "i7", 12, CoresUnit.GHz);
+        Accessory accessory1 = new Accessory("Etui", new BigDecimal(29), "Iphone 14 Pro", "Skórzane");
+        Product computer1 = new Computer(UUID.randomUUID(), "MacBook Air", new BigDecimal(1200), 10, processor1, ram1);
+        Product smartphone1 = new Smartphone(UUID.randomUUID(), "Iphone 14 Pro", new BigDecimal(4999), 50, Color.PINK, 2500, accessory1);
+        Product electronics = new Electronics(UUID.randomUUID(), "Samsung TV", new BigDecimal(5999), 20);
+
+        cart.addProductToCart(computer1, 1);
+        cart.addProductToCart(smartphone1, 2);
+        cart.addProductToCart(electronics, 3);
+        Order order = new Order(orderId, customer, cart);
+
+        System.out.println("Before applying discounts: " + order);
+
+        try {
+            order.applyPromotions();
+            System.out.println("After applying promotions: " + order);
+
+            order.applyFixedDiscount(new BigDecimal("50"));
+            System.out.println("After applying fixed discount: " + order);
+
+            order.applyPercentageDiscount(new BigDecimal("150"));
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error applying discount: " + e.getMessage());
+        }
     }
 }

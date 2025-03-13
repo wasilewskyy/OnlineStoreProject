@@ -54,7 +54,7 @@ public class MultiThreadedOrderProcessing {
 
             for (int i = 0; i < 5; i++) {
                 try {
-                    Order order = new Order(UUID.randomUUID(), customer, cart, cart.calculateTotalPrice());
+                    Order order = new Order(UUID.randomUUID(), customer, cart);
                     orderQueue.put(order);
                     System.out.println("Dodano nowe zamówienie: " + order.getOrderId());
                     Thread.sleep(500);
