@@ -1,8 +1,8 @@
 package org.project;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,7 +12,7 @@ public class Order {
     private Cart cart;
     private List<Product> products;
     private BigDecimal totalPrice;
-    private LocalDateTime orderTime;
+    private ZonedDateTime orderTime;
     private BigDecimal discountAmount = BigDecimal.ZERO;
 
     public Order(UUID orderId, Customer customer, Cart cart) {
@@ -20,19 +20,19 @@ public class Order {
         this.customer = customer;
         this.cart = cart;
         this.totalPrice = cart.calculateTotalPrice();
-        this.orderTime = LocalDateTime.now();
+        this.orderTime = ZonedDateTime.now();
     }
 
-    public LocalDateTime getOrderTime() {
+    public ZonedDateTime getOrderTime() {
         return orderTime;
     }
 
-    public void setOrderTime(LocalDateTime orderTime) {
+    public String orderTime() {
+        ZoneId clientZone = ZoneId.systemDefault();
+        ZonedDateTime orderTime = ZonedDateTime.now(clientZone);
+        System.out.println("Order time (" + clientZone + "): " + orderTime);
         this.orderTime = orderTime;
-    }
-
-    public void updateOrderTime() {
-        this.orderTime = LocalDateTime.now();
+        return "Data zamówienia (" + clientZone + "): " + orderTime;
     }
 
     public BigDecimal getTotalPrice() {
