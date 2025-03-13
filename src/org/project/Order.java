@@ -32,7 +32,7 @@ public class Order {
         ZonedDateTime orderTime = ZonedDateTime.now(clientZone);
         System.out.println("Order time (" + clientZone + "): " + orderTime);
         this.orderTime = orderTime;
-        return "Data zamówienia (" + clientZone + "): " + orderTime;
+        return "Order time (" + clientZone + "): " + orderTime;
     }
 
     public BigDecimal getTotalPrice() {
