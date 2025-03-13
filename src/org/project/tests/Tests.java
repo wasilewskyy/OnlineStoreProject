@@ -292,7 +292,6 @@ public class Tests {
     }
 
     private static void testingOrderTime(){
-
         UUID orderId = UUID.randomUUID();
         Customer customer = new Customer("Jan", "Kowalski", "jankowalski@example.com", "123456789", "ul. Polna 12, Warszawa");
         Cart cart = new Cart();
@@ -310,6 +309,6 @@ public class Tests {
         Order order = new Order(orderId, customer, cart);
         ZonedDateTime orderTime = order.getOrderTime();
 
-        System.out.println("Czas zamówienia: " + orderTime);
+        System.out.println("Order Time: " + orderTime);
     }
 }
