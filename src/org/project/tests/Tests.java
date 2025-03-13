@@ -20,6 +20,7 @@ public class Tests {
         testingOrderSavingToTxt();
         testingTheUseOfOrderProcessor();
         testOrderTimeUpdateDuringProcessing();
+        testingDiscount();
     }
 
     private static void creatingAndCheckingCorrectDisplayOfAllProducts() {
@@ -271,15 +272,20 @@ public class Tests {
         cart.addProductToCart(computer1, 1);
         cart.addProductToCart(smartphone1, 2);
         cart.addProductToCart(electronics, 3);
-        BigDecimal totalPrice = new BigDecimal("600");
-        Order order = new Order(orderId, customer, cart, cart.calculateTotalPrice());
+        Order order = new Order(orderId, customer, cart);
 
         System.out.println("Before applying discounts: " + order);
 
-        order.applyPromotions();
-        System.out.println("After applying promotions: " + order);
+        try {
+            order.applyPromotions();
+            System.out.println("After applying promotions: " + order);
 
-        order.applyFixedDiscount(new BigDecimal("50"));
-        System.out.println("After applying fixed discount: " + order);
+            order.applyFixedDiscount(new BigDecimal("50"));
+            System.out.println("After applying fixed discount: " + order);
+
+            order.applyPercentageDiscount(new BigDecimal("150"));
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error applying discount: " + e.getMessage());
+        }
     }
 }
