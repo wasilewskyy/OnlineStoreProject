@@ -46,7 +46,7 @@ As the number of orders grew, we needed to increase the efficiency of order proc
 
 To efficiently process orders asynchronously, we used ExecutorService with a thread pool, ensuring that multiple orders can be processed at the same time without blocking the system. To prevent race conditions in shared resources, we used synchronized where necessary.
 
-### 🗒️ Code
+### 📄 Code
 
 ```bash
 public class MultiThreadedOrderProcessing {
@@ -119,6 +119,12 @@ public class MultiThreadedOrderProcessing {
     }
 }
 ```
+### 💡 Summary
+- Orders are processed in separate threads, preventing system slowdowns.
+
+- ExecutorService ensures controlled concurrency.
+
+- Users experience faster order processing without delays.
 
 ## 🛠 Technologies  
 - Java (JDK 11+)  
@@ -143,5 +149,5 @@ Run the application:
 java -cp bin Main
 ```
 
-## 📄 Authors
+## 👨‍🎓 Authors
 Project created by Jakub Wasilewski.
