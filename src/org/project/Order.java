@@ -16,13 +16,12 @@ public class Order {
     private BigDecimal discountAmount = BigDecimal.ZERO;
     private BigDecimal finalPrice;
 
-    public Order(UUID orderId, Customer customer, Cart cart, BigDecimal totalPrice, ZoneId orderTime) {
+    public Order(UUID orderId, Customer customer, Cart cart, BigDecimal totalPrice) {
         this.orderId = orderId;
         this.customer = customer;
         this.cart = cart;
-        this.totalPrice = totalPrice;
-        this.finalPrice = cart.calculateTotalPrice();
-        this.orderTime = ZonedDateTime.now(orderTime);
+        this.totalPrice = cart.calculateTotalPrice();
+        this.orderTime = ZonedDateTime.now();
     }
 
     public ZonedDateTime getOrderTime() {
@@ -50,18 +49,18 @@ public class Order {
     }
 
     public void applyPercentageDiscount(BigDecimal percentage) {
-        if (percentage.compareTo(BigDecimal.ZERO) > 0 && percentage.compareTo(new BigDecimal("100")) <= 0) {
-            BigDecimal discount = cart.calculateTotalPrice().multiply(percentage).divide(new BigDecimal("100"));
-            discountAmount = discountAmount.add(discount);
-            updateFinalPrice();
+        if (percentage.compareTo(BigDecimal.ZERO) <= 0 || percentage.compareTo(new BigDecimal("100")) > 0) {
+            throw new IllegalArgumentException("Invalid discount percentage. Must be between 0 and 100.");
         }
+        BigDecimal discount = totalPrice.multiply(percentage).divide(new BigDecimal("100"));
+        totalPrice = totalPrice.subtract(discount);
     }
 
     public void applyFixedDiscount(BigDecimal amount) {
-        if (amount.compareTo(BigDecimal.ZERO) > 0 && amount.compareTo(cart.calculateTotalPrice()) <= 0) {
-            discountAmount = discountAmount.add(amount);
-            updateFinalPrice();
+        if (amount.compareTo(BigDecimal.ZERO) <= 0 || amount.compareTo(totalPrice) > 0) {
+            throw new IllegalArgumentException("Invalid discount amount. Must be greater than 0 and less than total price.");
         }
+        totalPrice = totalPrice.subtract(amount);
     }
 
     private void updateFinalPrice() {
@@ -73,7 +72,7 @@ public class Order {
     }
 
     public void applyPromotions() {
-        if (cart.calculateTotalPrice().compareTo(new BigDecimal("500")) > 0) {
+        if (totalPrice.compareTo(new BigDecimal("500")) > 0) {
             applyPercentageDiscount(new BigDecimal("10"));
         }
     }
